@@ -1,0 +1,257 @@
+🎯 Vision:
+Create a production-ready, FAANG-level WhatsApp clone web app named XChat — optimized for Nepali users first, but built to scale globally. The app must deliver high performance, beautiful UI/UX, and full functionality across all platforms: mobile, desktop, tablet, PWA.
+
+🛠 Tech Stack:
+Layer	Technology
+Frontend	React (Vite), TailwindCSS/SCSS
+State Mgmt	React Context + Hooks / Zustand
+Auth & DB	Firebase v9 Modular (Auth + Firestore + Storage)
+Media	Firebase Storage, Lazy loading
+Realtime Chat	Firestore or WebSockets/XMPP
+Calls	WebRTC (later via Agora/Twilio if needed)
+Hosting	Firebase Hosting / Custom Domain
+Deployment	Replit / Firebase / Hostinger
+
+🧠 System Architecture (inspired by WhatsApp design):
+Client-Server Architecture (React frontend + Firebase backend)
+
+Message Queues for delivery consistency and retry
+
+Realtime Database + Firestore for low-latency messaging
+
+Firebase Auth (Google) for cost-effective login
+
+Firestore Data Modeling:
+
+/users/{uid}: user metadata
+
+/chats/{chatId}/messages: per-convo messages
+
+/status/{uid}: user stories (expire in 24h)
+
+/calls/{callId}: call logs
+
+Storage:
+
+Firebase Storage for images, videos, docs
+
+Push Notifications:
+
+Firebase Messaging (mobile + PWA)
+
+📲 Key Functional Requirements:
+1. Authentication:
+Use Google Sign-In (via signInWithPopup) as primary method
+
+On first login:
+
+Show Profile Setup screen:
+
+Profile Pic (use Google or custom upload)
+
+Name (prefilled but editable)
+
+Short bio (optional)
+
+Optional phone (verified via Gmail, NOT SMS)
+
+Save to Firestore /users/{uid} with fields:
+
+js
+Copy
+Edit
+{
+  uid,
+  email,
+  displayName,
+  profilePicture,
+  bio,
+  phoneNumber,
+  isPhoneVerified,
+  status,          // online/offline
+  lastSeen,
+  onlineStatus,    // true/false
+  platformUsed     // mobile / desktop
+}
+2. Main App Layout:
+Bottom navigation (mobile/tablet) OR sidebar (desktop):
+
+Chats
+
+Status (stories)
+
+Calls
+
+Settings
+
+Use react-router-dom or window.location.href as needed in Replit.
+
+3. Chat System:
+1:1 chat (real-time)
+
+Message:
+
+Seen / Delivered / Sent ticks ✅✅✅
+
+Typing indicator
+
+Time stamps
+
+Auto scroll to bottom
+
+Media support:
+
+Image, Video, Audio, PDF/doc
+
+Lazy load thumbnails
+
+Message actions:
+
+Forward
+
+Delete for me
+
+Delete for everyone
+
+4. Status (Stories):
+Upload image/video
+
+Show viewer list
+
+Auto delete in 24h (cron job / TTL index)
+
+Swipe-through UI with progress bar
+
+Status privacy settings
+
+5. Calls (WebRTC):
+Audio / Video call
+
+Peer-to-peer or via Firebase + WebRTC servers
+
+Incoming call screen with ringtone
+
+Missed/received/dialed call logs
+
+6. Settings:
+Edit profile (pic, name, bio)
+
+Dark mode toggle
+
+Add/remove phone number (Gmail verify)
+
+Logout
+
+Delete account
+
+🌍 Location-Aware Features:
+Detect user’s country using navigator.geolocation or IP API
+
+If user is in Nepal:
+
+Prioritize Nepali UI content, emojis/stickers, default language
+
+Show “🇳🇵 Nepali Special” chat groups/stickers on onboarding
+
+🔐 Security & Privacy:
+End-to-end encryption (mocked for now using base64 or Firestore rules)
+
+Firestore rules for user-only access
+
+Secure media access with signed URLs
+
+🌐 Platform Support:
+Fully Responsive: Mobile-first + Desktop layout
+
+Use userAgent or media queries to detect platform
+
+Store platform info in Firestore
+
+Build as PWA (Progressive Web App)
+
+Service worker
+
+Offline chat caching
+
+Add to Home Screen
+
+🚀 Deployment Goals:
+Deploy to:
+
+Firebase Hosting (default)
+
+Replit preview link
+
+Hostinger custom domain (optional)
+
+Use .env for Firebase config
+
+Fully exportable/cloneable for others
+
+❗ Login Bug Fix Requirements (from your last issue):
+Use Firebase v9 signInWithPopup
+
+Fix infinite loop: check if onAuthStateChanged is being triggered twice
+
+If user exists → redirect to /home
+
+If new user → redirect to /setup
+
+After success → window.location.href = "/home"
+
+If login fails → show error in UI (setError(error.message))
+
+🧩 Bonus Features (Future Roadmap):
+Group chats with admin controls
+
+Message reactions (like emoji reacts)
+
+Custom stickers
+
+Chat backups
+
+Multi-device sync
+
+Scheduled messages
+
+Pin chats
+
+Mute/block/report users
+
+🧪 Getting Started Instructions:
+Set up Firebase project:
+
+Auth: Enable Google
+
+Firestore: Create rules + indexes
+
+Storage: For media
+
+Clone Vite + React starter template
+
+Add Firebase v9 modular SDK
+
+Implement Google login
+
+Create SetupProfile page for new users
+
+Create HomeLayout with tabs: Chats, Status, Calls, Settings
+
+Implement 1:1 chat first using Firestore onSnapshot
+
+Test fully in:
+
+Replit (desktop)
+
+Chrome mobile view
+
+Real Android device (via PWA)
+
+🪪 Branding:
+App Name: XChat
+
+Motto: Chat like never before — fast, simple, free, and Nepali-first.
+
+Favicon + App Icon: Inspired by chat bubble, futuristic font
+
+Design Theme: WhatsApp-style but cleaner (white/green/dark mode)
