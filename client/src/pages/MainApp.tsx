@@ -3,7 +3,12 @@ import { useChat } from '@/hooks/useChat';
 import { useAuth } from '@/hooks/useAuth';
 import ChatList from '@/components/ChatList';
 import ChatArea from '@/components/ChatArea';
+import StatusScreen from '@/components/StatusScreen';
+import CallsScreen from '@/components/CallsScreen';
+import UserSearch from '@/components/UserSearch';
 import MobileBottomNav from '@/components/MobileBottomNav';
+import { Button } from '@/components/ui/button';
+import { Plus, MessageSquarePlus } from 'lucide-react';
 import { Chat } from '@/types';
 
 export default function MainApp() {
@@ -12,6 +17,7 @@ export default function MainApp() {
   const [activeChat, setActiveChat] = useState<Chat | null>(null);
   const [activeTab, setActiveTab] = useState('chats');
   const [isMobile, setIsMobile] = useState(false);
+  const [showUserSearch, setShowUserSearch] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -25,6 +31,36 @@ export default function MainApp() {
 
   const handleChatSelect = (chat: Chat) => {
     setActiveChat(chat);
+  };
+
+  const handleUserSelect = (userId: string) => {
+    // Find or create chat with this user
+    const existingChat = chats.find(chat => 
+      chat.participants.includes(userId) && chat.participants.includes(user?.uid || '')
+    );
+    
+    if (existingChat) {
+      setActiveChat(existingChat);
+    }
+    setShowUserSearch(false);
+  };
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 'status':
+        return <StatusScreen />;
+      case 'calls':
+        return <CallsScreen />;
+      case 'chats':
+      default:
+        return (
+          <ChatList 
+            chats={chats} 
+            onChatSelect={handleChatSelect}
+            activeChat={activeChat}
+          />
+        );
+    }
   };
 
   return (
@@ -49,6 +85,16 @@ export default function MainApp() {
               </div>
             </div>
             <div className="flex space-x-2">
+              {activeTab === 'chats' && (
+                <Button
+                  onClick={() => setShowUserSearch(true)}
+                  variant="ghost"
+                  size="sm"
+                  className="text-white/80 hover:text-white p-2 rounded-full hover:bg-white/10"
+                >
+                  <MessageSquarePlus className="w-5 h-5" />
+                </Button>
+              )}
               <button className="text-white/80 hover:text-white p-2 rounded-full hover:bg-white/10">
                 <i className="fas fa-ellipsis-v"></i>
               </button>
@@ -85,12 +131,8 @@ export default function MainApp() {
           </div>
         </div>
 
-        {/* Chat List */}
-        <ChatList 
-          chats={chats} 
-          onChatSelect={handleChatSelect}
-          activeChat={activeChat}
-        />
+        {/* Tab Content */}
+        {renderTabContent()}
       </div>
 
       {/* Chat Area */}
@@ -124,6 +166,14 @@ export default function MainApp() {
           activeTab={activeTab} 
           onTabChange={setActiveTab}
           unreadCount={chats.reduce((total, chat) => total + (chat.unreadCount || 0), 0)}
+        />
+      )}
+
+      {/* User Search Modal */}
+      {showUserSearch && (
+        <UserSearch 
+          onUserSelect={handleUserSelect}
+          onClose={() => setShowUserSearch(false)}
         />
       )}
     </div>
