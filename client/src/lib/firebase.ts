@@ -5,11 +5,13 @@ import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "demo-api-key",
-  authDomain: `${import.meta.env.VITE_FIREBASE_PROJECT_ID || "xchat-demo"}.firebaseapp.com`,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "xchat-demo",
-  storageBucket: `${import.meta.env.VITE_FIREBASE_PROJECT_ID || "xchat-demo"}.firebasestorage.app`,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "123456789",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "demo-app-id",
+  authDomain: "xchat-ad785.firebaseapp.com",
+  databaseURL: "https://xchat-ad785-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "xchat-ad785",
+  storageBucket: "xchat-ad785.firebasestorage.app",
+  messagingSenderId: "962415851291",
+  appId: "1:962415851291:web:371092c56a492fec5285be",
+  measurementId: "G-RC3H6PVKH0"
 };
 
 const app = initializeApp(firebaseConfig);
