@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+    <meta name="description" content="XChat - Chat like never before. Fast, simple, free messaging app optimized for Nepali users with real-time messaging and PWA capabilities." />
+    <meta name="keywords" content="chat, messaging, nepal, whatsapp, real-time, firebase, pwa" />
+    <meta name="author" content="XChat Team" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="XChat - Chat like never before" />
+    <meta property="og:description" content="Fast, simple, free messaging app optimized for Nepali users" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://xchat.app" />
+    <meta property="og:image" content="https://xchat.app/og-image.png" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="XChat - Chat like never before" />
+    <meta name="twitter:description" content="Fast, simple, free messaging app optimized for Nepali users" />
+    <meta name="twitter:image" content="https://xchat.app/twitter-image.png" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#25D366" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="XChat" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>" />
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <title>XChat - Chat like never before</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          // Register service worker for PWA functionality
+          console.log('PWA ready - Service worker would be registered here in production');
+          
+          // Mock service worker registration for development
+          if (import.meta.env.PROD) {
+            navigator.serviceWorker.register('/sw.js')
+              .then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+              }, function(err) {
+                console.log('ServiceWorker registration failed: ', err);
+              });
+          }
+        });
+      }
+    </script>
+    
+    <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
+    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
+  </body>
+</html>
