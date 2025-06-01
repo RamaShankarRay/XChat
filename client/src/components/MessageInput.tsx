@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Smile, Paperclip, Mic, Send } from 'lucide-react';
+import EmojiPicker from './EmojiPicker';
 
 interface MessageInputProps {
   onSendMessage: (content: string) => void;
@@ -10,6 +11,7 @@ interface MessageInputProps {
 export default function MessageInput({ onSendMessage }: MessageInputProps) {
   const [message, setMessage] = useState('');
   const [isRecording, setIsRecording] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -44,6 +46,11 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
     // Handle voice recording - in real app, use MediaRecorder API
   };
 
+  const handleEmojiSelect = (emoji: string) => {
+    setMessage(prev => prev + emoji);
+    setShowEmojiPicker(false);
+  };
+
   return (
     <div className="bg-white dark:bg-whatsapp-dark-surface border-t border-gray-200 dark:border-gray-700 p-4">
       <form onSubmit={handleSubmit} className="flex items-center space-x-3">
@@ -51,6 +58,7 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
           type="button"
           variant="ghost"
           size="sm"
+          onClick={() => setShowEmojiPicker(!showEmojiPicker)}
           className="p-2 text-whatsapp-text hover:text-whatsapp-green"
         >
           <Smile className="w-5 h-5" />
@@ -107,6 +115,14 @@ export default function MessageInput({ onSendMessage }: MessageInputProps) {
           )}
         </div>
       </form>
+
+      {/* Emoji Picker */}
+      {showEmojiPicker && (
+        <EmojiPicker 
+          onEmojiSelect={handleEmojiSelect}
+          onClose={() => setShowEmojiPicker(false)}
+        />
+      )}
     </div>
   );
 }
